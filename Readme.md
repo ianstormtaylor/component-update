@@ -1,4 +1,3 @@
-
 # component-update
 
   A component command plugin to update out of date dependencies
@@ -8,8 +7,6 @@
     $ npm install -g component-update
 
 ## Example
-
-  Just `scripts` and `templates`:
 
     $ component update
 
