@@ -34,7 +34,7 @@ function update (json, options, callback) {
     if (!options.pin) return callback(null, deps);
     pinned(json, function (err, pins) {
       if (err) return callback(err);
-      callback(null, extend(deps, pins));
+      callback(null, extend(pins, deps));
     });
   });
 }

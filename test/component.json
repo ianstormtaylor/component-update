@@ -2,9 +2,9 @@
   "name": "component",
   "repo": "your/component",
   "dependencies": {
-    "component/each": "0.0.1",
+    "component/each": "*",
     "component/jquery": "1.8.8",
-    "component/model": "0.0.1",
+    "component/model": "*",
     "component/tip": "0.2.0",
     "ianstormtaylor/reset": "0.1.0",
     "typefaces/source-sans-regular": "0.0.1"
