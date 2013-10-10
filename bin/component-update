@@ -1,0 +1,110 @@
+#!/usr/bin/env node
+
+var component = require('component');
+var each = require('each-component');
+var extend = require('extend');
+var fs = require('fs');
+var json = require('../package.json');
+var outdated = require('component-outdated');
+var pad = require('pad-component');
+var path = require('path');
+var program = require('commander');
+var updateables = require('..');
+var utils = component.utils;
+
+
+/**
+ * Program.
+ */
+
+program
+  .option('-p, --pin', 'pin all unpinned dependencies')
+  .version(json.version)
+  .description(json.description)
+  .parse(process.argv);
+
+
+/**
+ * Make sure we have a component.json to begin with.
+ */
+
+var file = path.resolve('component.json');
+if (!fs.existsSync(file)) utils.fatal('missing component.json');
+update(require(file));
+
+
+/**
+ * Update any updateable dependencies in a `json`
+ *
+ * @param {Object} json
+ */
+
+function update (json) {
+  updateables(json, { pin: program.pin }, function (err, deps) {
+    if (err) throw err;
+    json.dependencies = json.dependencies || {};
+    extend(json.dependencies, clean(deps));
+    var string = JSON.stringify(json, null, 2);
+    fs.writeFileSync(path.resolve('component.json'), string);
+    output(deps);
+  });
+}
+
+
+/**
+ * Clean the dependencies for inserting into `json`.
+ *
+ * @param {Object} deps
+ * @return {Object}
+ */
+
+function clean (deps) {
+  var ret = {};
+  for (var repo in deps) ret[repo] = deps[repo].remote;
+  return ret;
+}
+
+
+/**
+ * Given a set of `deps` print out the outdated ones.
+ *
+ * @param {Object} deps
+ */
+
+function output (deps) {
+  var repoLength = 0;
+  var localLength = 0;
+  var remoteLength = 0;
+
+  console.log();
+
+  each(deps, function (repo, v) {
+    if (repo.length > repoLength) repoLength = repo.length;
+    if (v.local.length > localLength) localLength = v.local.length;
+    if (v.remote.length > remoteLength) remoteLength = v.remote.length;
+
+    process.nextTick(function () {
+      log(repo, v, repoLength, localLength, remoteLength);
+    });
+  });
+
+  process.nextTick(console.log);
+}
+
+
+/**
+ * Log the versions of a single dep.
+ *
+ * @param {String} repo
+ * @param {Object} versions
+ * @param {Number} repoLength
+ * @param {Number} localLength
+ * @param {Number} remoteLength
+ */
+
+function log (repo, versions, repoLength, localLength, remoteLength) {
+  repo = pad.right(repo, repoLength);
+  var local = pad.left(versions.local, localLength);
+  var remote = pad.left(versions.remote, remoteLength);
+  utils.log('updated', repo + '   ' + local + '  ->  ' + remote);
+}
