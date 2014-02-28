@@ -1,6 +1,6 @@
 {
   "name": "component-update",
-  "repository": "git://github.com/typefaces/component-update.git",
+  "repository": "git://github.com/ianstormtaylor/component-update.git",
   "version": "0.0.2",
   "license": "MIT",
   "description": "A component command plugin to update out of date dependencies.",
@@ -16,7 +16,7 @@
     "batch": "~0.5.0",
     "commander": "1.0.5",
     "component": "~0.17.6",
-    "each-component": "git://github.com/component/each",
+    "each-component": "~0.1",
     "extend": "~1.2.1",
     "pad-component": "0.0.1",
     "component-outdated": "0.0.2"
