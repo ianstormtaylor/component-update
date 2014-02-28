@@ -1,6 +1,6 @@
 {
   "name": "component-update",
-  "repository": "git://github.com/typefaces/component-update.git",
+  "repository": "git://github.com/ianstormtaylor/component-update.git",
   "version": "0.0.2",
   "license": "MIT",
   "description": "A component command plugin to update out of date dependencies.",
