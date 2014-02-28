@@ -1,7 +1,7 @@
 {
   "name": "component-update",
   "repository": "git://github.com/ianstormtaylor/component-update.git",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "description": "A component command plugin to update out of date dependencies.",
   "keywords": [
